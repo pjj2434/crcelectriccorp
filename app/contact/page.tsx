@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,7 @@ function normalizeSlug(str: string) {
     .replace(/[^a-z0-9-]/g, '');
 }
 
-export default function ContactPage() {
+function ContactFormContent() {
   const searchParams = useSearchParams();
   const urlService = searchParams.get("service") || "";
   const normalizedUrlService = normalizeSlug(urlService);
@@ -283,5 +284,13 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense>
+      <ContactFormContent />
+    </Suspense>
   );
 }
