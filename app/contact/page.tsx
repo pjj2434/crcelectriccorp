@@ -119,7 +119,7 @@ function ContactFormContent() {
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Call Us</p>
-                  <p className="text-white text-xl font-semibold">(555) 123-4567</p>
+                  <p className="text-white text-xl font-semibold">(631) 764-1577</p>
                 </div>
               </div>
 
