@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Hero: React.FC = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -87,12 +88,16 @@ const Hero: React.FC = () => {
 
             {/* Call to Action Buttons - RESPONSIVE LAYOUT */}
             <div className="flex flex-col gap-4 items-start">
+             <Link href="/contact">
               <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-red-500/25">
                 Get Expert Electrical Service Today! →
               </button>
+             </Link>
+             <Link href="/services">
               <button className="border-2 border-white text-white hover:bg-white hover:text-black font-bold py-3 px-6 rounded-lg text-base sm:text-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm">
                 All Our Services →
               </button>
+             </Link>
             </div>
           </div>
         </div>
