@@ -96,34 +96,34 @@ const Navbar: React.FC = () => {
             >
               <Link
                 href="/services"
-                className="text-red-600 hover:text-white hover:bg-red-600 text-2xl font-normal transition-colors duration-200 flex items-center gap-1 px-1 py-1 rounded focus:outline-none"
+                className="text-red-600 hover:text-red-400 text-2xl font-normal transition-colors duration-200"
                 onMouseEnter={() => setIsServicesDropdownOpen(true)}
               >
                 Services
-                <button
-                  className="ml-1"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsServicesDropdownOpen(!isServicesDropdownOpen);
-                  }}
-                  onMouseEnter={() => setIsServicesDropdownOpen(true)}
-                  type="button"
-                >
-                  <svg className={`w-4 h-4 transition-transform ${isServicesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 20 20">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 8l4 4 4-4" />
-                  </svg>
-                </button>
               </Link>
+              <button
+                className="absolute -right-5 top-1/2 transform -translate-y-1/2 text-red-600 hover:text-red-400"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsServicesDropdownOpen(!isServicesDropdownOpen);
+                }}
+                onMouseEnter={() => setIsServicesDropdownOpen(true)}
+                type="button"
+              >
+                <svg className={`w-4 h-4 transition-transform ${isServicesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 20 20">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 8l4 4 4-4" />
+                </svg>
+              </button>
               {isServicesDropdownOpen && (
                 <div
-                  className="absolute left-0 mt-2 w-56 bg-black border border-gray-800 rounded-md shadow-lg z-50 text-left min-w-max"
+                  className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-black border border-gray-800 rounded-md shadow-lg z-50 text-center min-w-max"
                   onMouseEnter={() => setIsServicesDropdownOpen(true)}
                   onMouseLeave={() => setIsServicesDropdownOpen(false)}
                 >
                   {services.map(service => (
                     <button
                       key={service.slug}
-                      className="block w-full text-left px-4 py-2 text-base text-red-600 hover:bg-red-600 hover:text-white transition-colors font-normal"
+                      className="block w-full text-center px-4 py-2 text-base text-red-600 hover:bg-red-600 hover:text-white transition-colors font-normal"
                       onClick={() => handleServiceJump(normalizeSlug(service.title))}
                       type="button"
                     >
@@ -181,7 +181,7 @@ const Navbar: React.FC = () => {
               href="tel:+1234567890" 
               className="text-red-600 hover:text-red-400 text-lg font-medium transition-colors duration-200"
             >
-              📞 (631) 764-15770
+              📞 (631) 764-1577
             </a>
           </div>
 
@@ -191,7 +191,7 @@ const Navbar: React.FC = () => {
               href="tel:+1234567890" 
               className="text-red-600 hover:text-red-400 text-lg font-medium transition-colors duration-200"
             >
-              📞 (631) 764-15770
+              📞 (631) 764-1577
             </a>
           </div>
         </div>
@@ -211,40 +211,41 @@ const Navbar: React.FC = () => {
                   About Us
                 </Link>
               </div>
-              <div className="py-4 px-6 rounded-lg transition-all duration-300 relative">
-                <div className="flex items-center justify-center gap-2">
-                  <button
-                    className="text-2xl font-normal text-red-600 hover:text-red-400 transition-all duration-300 transform hover:scale-105"
-                    onClick={handleMobileServicesClick}
-                    type="button"
-                  >
-                    Services
-                  </button>
-                  <button
-                    className="p-2 text-red-600 hover:text-white hover:bg-red-600 rounded transition-all duration-300"
-                    onClick={() => setIsMobileServicesDropdownOpen(!isMobileServicesDropdownOpen)}
-                    type="button"
-                  >
-                    <svg className={`w-6 h-6 transition-transform ${isMobileServicesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 20 20">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 8l4 4 4-4" />
-                    </svg>
-                  </button>
-                </div>
-                {isMobileServicesDropdownOpen && (
-                  <div className="mt-4 bg-gray-900 border border-gray-800 rounded-md shadow-lg">
-                    {services.map(service => (
-                      <button
-                        key={service.slug}
-                        className="block w-full text-center px-4 py-3 text-lg text-red-600 hover:bg-red-600 hover:text-white transition-colors font-normal border-b border-gray-800 last:border-b-0"
-                        onClick={() => handleServiceJump(normalizeSlug(service.title))}
-                        type="button"
-                      >
-                        {service.title}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+           <div className="py-4 px-6 rounded-lg transition-all duration-300 relative">
+  <div className="flex flex-col items-center justify-center relative">
+    <button
+      className="text-2xl font-normal text-red-600 hover:text-red-400 transition-all duration-300 transform hover:scale-105"
+      onClick={handleMobileServicesClick}
+      type="button"
+    >
+      Services
+    </button>
+    <button
+      className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 p-2 text-red-600 hover:text-white hover:bg-red-600 rounded transition-all duration-300"
+      onClick={() => setIsMobileServicesDropdownOpen(!isMobileServicesDropdownOpen)}
+      type="button"
+    >
+      <svg className={`w-6 h-6 transition-transform ${isMobileServicesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 20 20">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 8l4 4 4-4" />
+      </svg>
+    </button>
+  </div>
+
+  {isMobileServicesDropdownOpen && (
+    <div className="mt-4 bg-gray-900 border border-gray-800 rounded-md shadow-lg">
+      {services.map(service => (
+        <button
+          key={service.slug}
+          className="block w-full text-center px-4 py-3 text-lg text-red-600 hover:bg-red-600 hover:text-white transition-colors font-normal border-b border-gray-800 last:border-b-0"
+          onClick={() => handleServiceJump(normalizeSlug(service.title))}
+          type="button"
+        >
+          {service.title}
+        </button>
+      ))}
+    </div>
+  )}
+</div>
               <div className="py-4 px-6 rounded-lg transition-all duration-300">
                 <Link
                   href="/work"
@@ -270,7 +271,7 @@ const Navbar: React.FC = () => {
                   href="tel:+1234567890" 
                   className="inline-block text-red-600 hover:text-red-400 text-xl font-medium transition-colors duration-200"
                 >
-                  📞 (631) 764-15770
+                  📞 (631) 764-1577
                 </a>
               </div>
             </div>

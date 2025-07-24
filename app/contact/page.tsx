@@ -129,7 +129,7 @@ function ContactFormContent() {
                 </div>
                 <div>
                   <p className="text-gray-400 text-sm">Email Us</p>
-                  <p className="text-white text-xl font-semibold">crcelectriccorp@gmail.comal.com</p>
+                  <p className="text-white text-xl font-semibold">crcelectriccorp@gmail.com</p>
                 </div>
               </div>
 

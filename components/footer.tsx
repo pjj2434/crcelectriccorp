@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
               href="tel:+1234567890"
               className="border-2 border-white text-white hover:bg-white hover:text-red-600 font-bold py-3 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105"
             >
-              Call Now: (631) 764-15770
+              Call Now: (631) 764-1577
             </a>
           </div>
         </div>
@@ -185,7 +185,7 @@ const Footer: React.FC = () => {
                     href="tel:+1234567890" 
                     className="text-white font-semibold hover:text-red-400 transition-colors duration-200"
                   >
-                    (631) 764-15770
+                    (631) 764-1577
                   </a>
                 </div>
               </div>
@@ -195,10 +195,10 @@ const Footer: React.FC = () => {
                 <div>
                   <p className="text-gray-300">Email Us</p>
                   <a 
-                    href="mailto:crcelectriccorp@gmail.comal.com" 
+                    href="mailto:crcelectriccorp@gmail.com" 
                     className="text-white font-semibold hover:text-red-400 transition-colors duration-200"
                   >
-                    crcelectriccorp@gmail.comal.com
+                    crcelectriccorp@gmail.com
                   </a>
                 </div>
               </div>
