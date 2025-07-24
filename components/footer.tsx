@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
             <div className="mb-6">
               <div className="relative h-20 w-64">
                 <Image
-                  src="/logo.png"
+                  src="/logo.PNG"
                   alt="CRC Electrical Logo"
                   fill
                   className="object-contain object-left"

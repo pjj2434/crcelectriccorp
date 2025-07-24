@@ -461,50 +461,7 @@ const OurWork: React.FC = () => {
         {/* Grid of Slideshows */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">{slideshowGrid}</div>
 
-        {/* Call to Action */}
-        <section className="bg-black px-12 py-16 text-center shadow-2xl rounded-2xl" aria-labelledby="cta-heading">
-          <h3 id="cta-heading" className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Start Your Project?
-          </h3>
-          <p className="text-gray-300 text-xl mb-10 max-w-3xl mx-auto leading-relaxed">
-            Join hundreds of satisfied customers across Long Island. Let us bring your electrical vision to life with
-            professional installation and unmatched quality.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Link
-              href="/quote"
-              className="inline-flex items-center gap-3 bg-red-600 hover:bg-red-700 text-white font-bold py-5 px-10 text-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl rounded-xl focus:outline-none focus:ring-4 focus:ring-red-400"
-            >
-              Get Your Free Estimate
-              <ArrowRight className="w-6 h-6" />
-            </Link>
-
-            <div className="text-gray-500 text-lg font-medium" aria-hidden="true">
-              or
-            </div>
-
-            <a
-              href="tel:+1234567890"
-              className="inline-flex items-center gap-3 border-3 border-white text-white hover:bg-white hover:text-black font-bold py-5 px-10 text-xl transition-all duration-300 transform hover:scale-105 rounded-xl focus:outline-none focus:ring-4 focus:ring-white"
-            >
-              <Phone className="w-6 h-6" />
-              Call: (123) 456-7890
-            </a>
-          </div>
-
-          {/* Trust Indicators */}
-          <div className="mt-12 pt-8 border-t border-gray-700">
-            <ul className="flex flex-wrap justify-center gap-12 text-gray-300 text-base font-medium">
-              {["Licensed & Insured", "24/7 Emergency Service", "Lifetime Warranty"].map((feature) => (
-                <li key={feature} className="flex items-center gap-3">
-                  <span className="w-3 h-3 bg-red-600 rounded-full" aria-hidden="true" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        
       </div>
     </section>
   )

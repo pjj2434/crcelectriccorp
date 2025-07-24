@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
             <Link href="/" className="flex items-center justify-center">
               <div className="relative h-32 w-80 lg:h-40 lg:w-[28rem] md:w-96">
                 <Image
-                  src="/logo.png" // Replace with your logo path
+                  src="/logo.PNG" // Replace with your logo path
                   alt="Company Logo"
                   fill
                   className="object-contain object-left"
