@@ -57,28 +57,30 @@ const Hero: React.FC = () => {
           <div className="absolute inset-0 bg-opacity-60"></div>
         </div>
 
-        {/* Hero Content - LEFT ALIGNED */}
-        <div className="relative z-10 flex items-center min-h-screen px-6 sm:px-8 lg:px-12 xl:px-16">
-          <div className="max-w-4xl py-20">
-            {/* Main Heading - RESPONSIVE LINE BREAKS */}
-            <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight tracking-tight mb-2">
-              POWER YOUR
-              <br />
-              PROPERTY WITH
-              <br />
-              <span className="text-gray-200">EXPERT</span>
-            </h1>
+       {/* Hero Content - LEFT ALIGNED */}
+<div className="relative z-10 flex items-center min-h-screen px-6 sm:px-8 lg:px-12 xl:px-16">
+  <div className="max-w-4xl py-20">
+    {/* Main Heading - RESPONSIVE LINE BREAKS */}
+    <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight tracking-tight ">
+      POWER YOUR
+      <br />
+      PROPERTY WITH
+      <br />
+      <span className="text-gray-200">EXPERT</span>
+    </h1>
 
-            {/* Animated Word - SMOOTHER TRANSITIONS */}
-            <div className="mb-6 h-16 sm:h-12 md:h-16 lg:h-20 xl:h-24 flex items-center">
-              <h2
-                className={`text-3xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-red-500 tracking-tight word-transition ${
-                  isTransitioning ? "word-exit" : "word-enter"
-                }`}
-              >
-                {words[currentWordIndex]}
-              </h2>
-            </div>
+    {/* Animated Word - SAME SIZE AS MAIN HEADING */}
+    <div className="mb-6 h-16 sm:h-12 md:h-16 lg:h-20 xl:h-24 flex items-center">
+      <h2
+        className={`text-4xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-red-500 leading-tight tracking-tight word-transition ${
+          isTransitioning ? "word-exit" : "word-enter"
+        }`}
+      >
+        {words[currentWordIndex]}
+      </h2>
+    </div>
+  
+
 
             {/* New Subtitle */}
             <p className="text-lg sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl leading-relaxed mb-8">

@@ -22,9 +22,9 @@ const services = [
     description:
       "Ensure complete safety and compliance with our specialized aquatic electrical services. CRC Electric provides comprehensive electrical solutions for pools, hot tubs, spas, and saunas, including GFCI protection, underwater lighting systems, and equipment connections. Our certified technicians follow strict safety protocols and local codes to deliver reliable installations that protect your family and investment.",
     images: [
-      "/pool1.heic",
-      "/pool2.heic",
-      "/pool3.heic",
+      "/pool1.jpg",
+      "/pool2.jpg",
+      "/pool3.jpg",
     ],
   },
   {
@@ -37,7 +37,7 @@ const services = [
       "/res2.jpg",
       "/res3.jpg",
       "/res4.jpg",
-      "/res5.heic",
+      "/res5.jpg",
     ],
   },
   {

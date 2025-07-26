@@ -65,7 +65,9 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <nav className="bg-black shadow-lg relative z-50">
+      {/* FIXED NAVBAR WITH HIGHER Z-INDEX AND HARDWARE ACCELERATION */}
+      <nav className="absolute top-0 left-0 right-0 bg-black shadow-lg z-[100] transform-gpu will-change-transform">
+
         {/* Main Navigation - TALLER ON MOBILE */}
         <div className="w-full flex justify-between items-center h-48 lg:h-44">
           {/* Logo - TOUCHING LEFT EDGE */}
@@ -73,10 +75,11 @@ const Navbar: React.FC = () => {
             <Link href="/" className="flex items-center justify-center">
               <div className="relative h-32 w-80 lg:h-40 lg:w-[28rem] md:w-96">
                 <Image
-                  src="/logo.PNG" // Replace with your logo path
+                  src="/logo.PNG"
                   alt="Company Logo"
                   fill
                   className="object-contain object-left"
+                  priority
                 />
               </div>
             </Link>
@@ -116,7 +119,7 @@ const Navbar: React.FC = () => {
               </button>
               {isServicesDropdownOpen && (
                 <div
-                  className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-black border border-gray-800 rounded-md shadow-lg z-50 text-center min-w-max"
+                  className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-56 bg-black border border-gray-800 rounded-md shadow-lg z-[110] text-center min-w-max"
                   onMouseEnter={() => setIsServicesDropdownOpen(true)}
                   onMouseLeave={() => setIsServicesDropdownOpen(false)}
                 >
@@ -148,7 +151,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Hamburger Button */}
-          <div className="lg:hidden ml-auto pr-4 relative z-60">
+          <div className="lg:hidden ml-auto pr-4 relative z-[120]">
             <button
               onClick={toggleMenu}
               className="p-3 rounded-md text-red-600 hover:text-red-400 focus:outline-none transition-colors duration-200"
@@ -197,7 +200,7 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Mobile Menu - SLIDES DOWN FROM NAVBAR - CENTERED LINKS */}
-        <div className={`lg:hidden transition-all duration-300 ease-in-out relative z-50 ${
+        <div className={`lg:hidden transition-all duration-300 ease-in-out relative z-[110] ${
           isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}>
           <div className="bg-black border-t border-red-600">
@@ -211,41 +214,41 @@ const Navbar: React.FC = () => {
                   About Us
                 </Link>
               </div>
-           <div className="py-4 px-6 rounded-lg transition-all duration-300 relative">
-  <div className="flex flex-col items-center justify-center relative">
-    <button
-      className="text-2xl font-normal text-red-600 hover:text-red-400 transition-all duration-300 transform hover:scale-105"
-      onClick={handleMobileServicesClick}
-      type="button"
-    >
-      Services
-    </button>
-    <button
-      className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 p-2 text-red-600 hover:text-white hover:bg-red-600 rounded transition-all duration-300"
-      onClick={() => setIsMobileServicesDropdownOpen(!isMobileServicesDropdownOpen)}
-      type="button"
-    >
-      <svg className={`w-6 h-6 transition-transform ${isMobileServicesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 20 20">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 8l4 4 4-4" />
-      </svg>
-    </button>
-  </div>
+              <div className="py-4 px-6 rounded-lg transition-all duration-300 relative">
+                <div className="flex flex-col items-center justify-center relative">
+                  <button
+                    className="text-2xl font-normal text-red-600 hover:text-red-400 transition-all duration-300 transform hover:scale-105"
+                    onClick={handleMobileServicesClick}
+                    type="button"
+                  >
+                    Services
+                  </button>
+                  <button
+                    className="absolute right-[-20px] top-1/2 transform -translate-y-1/2 p-2 text-red-600 hover:text-white hover:bg-red-600 rounded transition-all duration-300"
+                    onClick={() => setIsMobileServicesDropdownOpen(!isMobileServicesDropdownOpen)}
+                    type="button"
+                  >
+                    <svg className={`w-6 h-6 transition-transform ${isMobileServicesDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 20 20">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 8l4 4 4-4" />
+                    </svg>
+                  </button>
+                </div>
 
-  {isMobileServicesDropdownOpen && (
-    <div className="mt-4 bg-gray-900 border border-gray-800 rounded-md shadow-lg">
-      {services.map(service => (
-        <button
-          key={service.slug}
-          className="block w-full text-center px-4 py-3 text-lg text-red-600 hover:bg-red-600 hover:text-white transition-colors font-normal border-b border-gray-800 last:border-b-0"
-          onClick={() => handleServiceJump(normalizeSlug(service.title))}
-          type="button"
-        >
-          {service.title}
-        </button>
-      ))}
-    </div>
-  )}
-</div>
+                {isMobileServicesDropdownOpen && (
+                  <div className="mt-4 bg-gray-900 border border-gray-800 rounded-md shadow-lg">
+                    {services.map(service => (
+                      <button
+                        key={service.slug}
+                        className="block w-full text-center px-4 py-3 text-lg text-red-600 hover:bg-red-600 hover:text-white transition-colors font-normal border-b border-gray-800 last:border-b-0"
+                        onClick={() => handleServiceJump(normalizeSlug(service.title))}
+                        type="button"
+                      >
+                        {service.title}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <div className="py-4 px-6 rounded-lg transition-all duration-300">
                 <Link
                   href="/work"
@@ -282,10 +285,13 @@ const Navbar: React.FC = () => {
       {/* Background Overlay - FULL BLACK BACKGROUND */}
       {isMenuOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black z-10"
+          className="lg:hidden fixed inset-0 bg-black z-[90]"
           onClick={toggleMenu}
         />
       )}
+
+      {/* SPACER DIV TO PREVENT CONTENT FROM HIDING UNDER FIXED NAV */}
+      <div className="h-48 lg:h-44"></div>
     </>
   );
 };
