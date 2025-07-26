@@ -33,11 +33,11 @@ const services = [
     description:
       "Comprehensive electrical solutions tailored to modern homeowners' needs. From electrical panel upgrades and circuit installations to smart home integration and energy-efficient lighting retrofits, our licensed electricians deliver reliable service with attention to detail. We prioritize safety, code compliance, and long-term performance in every residential project across Long Island.",
     images: [
+      "/res.jpg",
       "/res1.jpg",
       "/res2.jpg",
       "/res3.jpg",
       "/res4.jpg",
-      "/res5.jpg",
     ],
   },
   {
