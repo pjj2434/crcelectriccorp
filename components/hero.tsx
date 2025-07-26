@@ -8,7 +8,7 @@ import Link from "next/link";
 const Hero: React.FC = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const words = ["WIRING.", "LIGHTNING.", "INSTALLATIONS.", "SOLUTIONS."];
+  const words = ["WIRING.", "LIGHTING.", "INSTALLATIONS.", "SOLUTIONS."];
 
   useEffect(() => {
     const interval = setInterval(() => {

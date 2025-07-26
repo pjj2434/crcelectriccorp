@@ -46,9 +46,8 @@ const services = [
     description:
       "Maximize operational efficiency with tailored commercial electrical services designed for business continuity. Our experienced team handles complex projects including office buildouts, retail lighting systems, industrial power distribution, and emergency electrical services. We work efficiently to minimize disruption while ensuring your electrical infrastructure supports your business goals throughout Suffolk and Nassau County.",
     images: [
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
-      "/placeholder.svg?height=600&width=800",
+      "/_com1.jpg",
+      
     ],
   },
 ]
