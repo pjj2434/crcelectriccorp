@@ -88,7 +88,7 @@ const Navbar: React.FC = () => {
           {/* Desktop Navigation - PROFESSIONAL SIZE */}
           <div className="hidden lg:flex items-center space-x-12 xl:space-x-16 2xl:space-x-20 ml-auto pr-8">
             <Link 
-              href="/about" 
+              href="/#" 
               className="text-red-600 hover:text-red-400 text-2xl font-normal transition-colors duration-200"
             >
               About Us
@@ -207,7 +207,7 @@ const Navbar: React.FC = () => {
             <div className="px-6 py-8 space-y-2 text-center">
               <div className="py-4 px-6 rounded-lg transition-all duration-300">
                 <Link
-                  href="/about"
+                  href="/#"
                   className="inline-block text-2xl font-normal text-red-600 hover:text-red-400 transition-all duration-300 transform hover:scale-105"
                   onClick={toggleMenu}
                 >
