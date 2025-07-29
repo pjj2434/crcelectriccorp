@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 // Service types from components/serivice-section.tsx
 const services = [
@@ -43,6 +44,8 @@ function ContactFormContent() {
     description: "",
     propertyType: "",
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (initialService && form.serviceType !== initialService) {
@@ -87,10 +90,92 @@ function ContactFormContent() {
     setForm((prev) => ({ ...prev, [name]: value }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  // Client-side validation
+  function validateForm() {
+    const errors = [];
+
+    if (!form.name || form.name.length < 2) {
+      errors.push("Name must be at least 2 characters long");
+    }
+
+    if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      errors.push("Please enter a valid email address");
+    }
+
+    if (!form.phone || form.phone.replace(/\D/g, '').length < 10) {
+      errors.push("Please enter a valid phone number with at least 10 digits");
+    }
+
+    if (!form.address || form.address.length < 5) {
+      errors.push("Please enter a valid address");
+    }
+
+    if (!form.serviceType) {
+      errors.push("Please select a service type");
+    }
+
+    if (!form.propertyType) {
+      errors.push("Please select a property type");
+    }
+
+    return errors;
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // Handle form submission (e.g., send to API or email)
-    alert("Form submitted! (Demo)");
+    
+    // Validate form
+    const errors = validateForm();
+    if (errors.length > 0) {
+      errors.forEach(error => {
+        toast.error(error);
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Thank you! Your request has been submitted successfully. We'll get back to you shortly.", {
+          duration: 5000,
+        });
+        
+        // Reset form
+        setForm({
+          name: "",
+          email: "",
+          phone: "",
+          address: "",
+          serviceType: "",
+          wiringType: "",
+          description: "",
+          propertyType: "",
+        });
+      } else {
+        // Handle validation errors from server
+        if (data.error === 'Invalid form data') {
+          toast.error("Please check your form data and try again.");
+        } else {
+          toast.error("Something went wrong. Please try again or call us directly.");
+        }
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast.error("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -175,6 +260,7 @@ function ContactFormContent() {
                   autoComplete="name"
                   placeholder="Your Name"
                   className="border-gray-300 focus:border-red-500 focus:ring-red-500"
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -189,6 +275,7 @@ function ContactFormContent() {
                   autoComplete="email"
                   placeholder="you@email.com"
                   className="border-gray-300 focus:border-red-500 focus:ring-red-500"
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -203,6 +290,7 @@ function ContactFormContent() {
                   autoComplete="tel"
                   placeholder="(555) 555-5555"
                   className="border-gray-300 focus:border-red-500 focus:ring-red-500"
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -217,12 +305,17 @@ function ContactFormContent() {
                   autoComplete="street-address"
                   placeholder="123 Main St, City, State"
                   className="border-gray-300 focus:border-red-500 focus:ring-red-500"
+                  disabled={isSubmitting}
                 />
               </div>
 
               <div>
-                <label className="block mb-2 font-medium text-gray-700">Service Type</label>
-                <Select value={form.serviceType} onValueChange={(v: string) => handleSelect("serviceType", v)}>
+                <label className="block mb-2 font-medium text-gray-700">Service Type *</label>
+                <Select 
+                  value={form.serviceType} 
+                  onValueChange={(v: string) => handleSelect("serviceType", v)}
+                  disabled={isSubmitting}
+                >
                   <SelectTrigger className="border-gray-300 focus:border-red-500 focus:ring-red-500">
                     <SelectValue placeholder="Select a service type" />
                   </SelectTrigger>
@@ -235,8 +328,12 @@ function ContactFormContent() {
               </div>
 
               <div>
-                <label className="block mb-2 font-medium text-gray-700">Property Type</label>
-                <Select value={form.propertyType} onValueChange={(v: string) => handleSelect("propertyType", v)}>
+                <label className="block mb-2 font-medium text-gray-700">Property Type *</label>
+                <Select 
+                  value={form.propertyType} 
+                  onValueChange={(v: string) => handleSelect("propertyType", v)}
+                  disabled={isSubmitting}
+                >
                   <SelectTrigger className="border-gray-300 focus:border-red-500 focus:ring-red-500">
                     <SelectValue placeholder="Select property type" />
                   </SelectTrigger>
@@ -249,9 +346,13 @@ function ContactFormContent() {
 
               <div>
                 <label className="block mb-2 font-medium text-gray-700">Wiring Type</label>
-                <Select value={form.wiringType} onValueChange={(v: string) => handleSelect("wiringType", v)}>
+                <Select 
+                  value={form.wiringType} 
+                  onValueChange={(v: string) => handleSelect("wiringType", v)}
+                  disabled={isSubmitting}
+                >
                   <SelectTrigger className="border-gray-300 focus:border-red-500 focus:ring-red-500">
-                    <SelectValue placeholder="Select wiring type" />
+                    <SelectValue placeholder="Select wiring type (optional)" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="existing">Existing Wiring</SelectItem>
@@ -270,14 +371,23 @@ function ContactFormContent() {
                   onChange={handleChange}
                   placeholder="Tell us more about your electrical project..."
                   className="border-gray-300 focus:border-red-500 focus:ring-red-500 min-h-[100px]"
+                  disabled={isSubmitting}
                 />
               </div>
 
               <Button 
                 type="submit" 
-                className="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-4 text-lg rounded-lg transition-all duration-300 transform hover:scale-105"
+                disabled={isSubmitting}
+                className="w-full bg-red-500 hover:bg-red-600 disabled:bg-red-300 text-white font-bold py-4 text-lg rounded-lg transition-all duration-300 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed"
               >
-                Get My Free Estimate →
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Sending Request...
+                  </>
+                ) : (
+                  "Get My Free Estimate →"
+                )}
               </Button>
             </form>
           </div>

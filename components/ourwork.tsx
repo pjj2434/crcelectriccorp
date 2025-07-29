@@ -189,13 +189,13 @@ const workSections: WorkSection[] = [
       {
         id: "slideA",
         title: "Wall-Mounted TV Setup",
-        image: "/work/tv-mounting/slideA.jpg",
+        image: "/tv1.jpg",
         alt: "Wall-mounted TV installation",
       },
       {
         id: "slideB",
         title: "Home Theater Wiring",
-        image: "/work/tv-mounting/slideB.jpg",
+        image: "/tv.jpg",
         alt: "Home theater wiring system",
       },
     ],

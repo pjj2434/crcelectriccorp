@@ -4,6 +4,7 @@
 import Navbar from "@/components/nav";
 import Footer from "@/components/footer";
 import { useEffect, useState } from "react";
+import { Toaster } from "sonner";
 
 export default function ClientLayout({
   children,
@@ -38,6 +39,19 @@ export default function ClientLayout({
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
         </svg>
       </button>
+      <Toaster 
+          position="top-right"
+          toastOptions={{
+            style: {
+              background: '#ffffff',
+              color: '#374151',
+              border: '1px solid #e5e7eb',
+            },
+            className: 'toast',
+            duration: 4000,
+          }}
+          theme="light"
+        />
       <Footer/>
     </>
   );

@@ -50,6 +50,26 @@ const services = [
       
     ],
   },
+  {
+    id: 5,
+    title: "EV Charger Installation",
+    description:
+      "Power your electric vehicle with confidence. Our licensed electricians provide fast, reliable EV charger installation for homes and businesses. Whether you need a Level 2 home charger or a commercial charging station, we ensure safe, code-compliant setup tailored to your needs.",
+    images: [
+      "/ev.jpg",
+      
+    ],
+  },
+   {
+    id: 6,
+    title: "Residential & Commercial Generator Installation",
+    description:
+      "Stay powered through any outage with expert generator installation for homes and businesses. We install and service reliable standby generators tailored to your property’s specific needs—whether it’s a whole-home system or a commercial-grade backup solution.",
+    images: [
+      "/_com1.jpg",
+      
+    ],
+  },
 ]
 
 function normalizeSlug(str: string): string {
