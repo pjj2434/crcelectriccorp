@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'CRC Electric | Expert Electrical Services in Long Island, NY',
   description: 'CRC Electric provides licensed electrical services including lighting, panel upgrades, wiring, and installations across Nassau & Suffolk County. Free estimates!',
   openGraph: {
-    url: 'https://crcelectriccorp.com/home',
+    url: 'https://crcelectriccorp.vercel.app',
     type: 'website',
     title: 'CRC Electric | Expert Electrical Services in Long Island, NY',
     description: 'CRC Electric provides licensed electrical services including lighting, panel upgrades, wiring, and installations across Nassau & Suffolk County. Free estimates!',
