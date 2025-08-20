@@ -16,13 +16,15 @@ import {
 interface SlideData {
   id: string;
   title: string;
-  image: string;
-  alt: string;
+  url: string; // Changed from 'image' to 'url' to match your database
+  createdAt: string;
+  isActive: boolean;
 }
 
 interface WorkSection {
   id: string;
   title: string;
+  table: string; // Added table name for API calls
   slides: SlideData[];
 }
 
@@ -31,229 +33,37 @@ const AUTOPLAY_INTERVAL = 3500;
 const PAUSE_DURATION = 10000;
 const ANIMATION_DURATION = 700;
 
-// Data
-const workSections: WorkSection[] = [
+// Section configuration - maps to your database tables
+const workSectionsConfig = [
   {
-    //done
     id: "custom-lighting",
     title: "Custom Lighting Installation",
-    slides: [
-      {
-        id: "slide1",
-
-        title: "Chandelier Setup",
-
-        image: "/clight2.jpg",
-
-        alt: "Elegant chandelier installation",
-      },
-
-      {
-        id: "slide2",
-
-        title: "Chandelier Setup",
-
-        image: "/clight3.jpg",
-
-        alt: "Elegant chandelier installation",
-      },
-
-      {
-        id: "slide3",
-
-        title: "Chandelier Setup",
-
-        image: "/clight4.jpg",
-
-        alt: "Elegant chandelier installation",
-      },
-
-      {
-        id: "slide4",
-
-        title: "Under-Cabinet LED",
-
-        image: "/clight5.jpg",
-
-        alt: "Under-cabinet LED lighting",
-      },
-
-      {
-        id: "slide5",
-
-        title: "Under-Cabinet LED",
-
-        image: "/clight6.jpg",
-
-        alt: "Under-cabinet LED lighting",
-      },
-
-      {
-        id: "slide6",
-
-        title: "Under-Cabinet LED",
-
-        image: "/clight8.jpg",
-
-        alt: "Under-cabinet LED lighting",
-      },
-
-      {
-        id: "slide7",
-
-        title: "Modern Pendant Installation",
-
-        image: "/clight9.jpg",
-
-        alt: "Custom pendant lighting installation",
-      },
-
-      {
-        id: "slide8",
-
-        title: "Chandelier Setup",
-
-        image: "/clight11.jpg",
-
-        alt: "Elegant chandelier installation",
-      },
-
-      
-    ],
+    table: "custom_lighting_installation",
   },
   {
     id: "landscape-outdoor",
     title: "Landscape & Outdoor Lighting",
-    slides: [
-      {
-        //done
-        id: "pic1",
-
-        title: "",
-
-        image: "/outdoor1.jpg",
-
-        alt: "",
-      },
-
-      {
-        id: "pic2",
-
-        title: "",
-
-        image: "/outdoor2.jpg",
-
-        alt: "",
-      },
-
-      {
-        id: "pic3",
-
-        title: "",
-
-        image: "/outdoor3.jpg",
-
-        alt: "",
-      },
-    ],
+    table: "landscape_outdoor_lighting",
   },
   {
     id: "pool-sauna",
     title: "Pool & Sauna Electrical",
-    slides: [
-      {
-        id: "pic1",
-        title: "Pool Equipment Wiring",
-        image: "/pool1.jpg",
-        alt: "Pool equipment wiring",
-      },
-      {
-        id: "pic2",
-        title: "Pool panel Wiring",
-        image: "/pool2.jpg",
-        alt: "Underwater panel lighting",
-      },
-      {
-        id: "pic3",
-        title: "Pool Equipment Wiring",
-        image: "/pool3.jpg",
-        alt: "Pool Equipment Wiring",
-      },
-   
-    ],
+    table: "pool_sauna_electrical",
   },
   {
     id: "tv-mounting",
     title: "TV Mounting & Wiring",
-    slides: [
-      {
-        id: "slideA",
-        title: "Wall-Mounted TV Setup",
-        image: "/tv1.jpg",
-        alt: "Wall-mounted TV installation",
-      },
-      {
-        id: "slideB",
-        title: "Home Theater Wiring",
-        image: "/tv.jpg",
-        alt: "Home theater wiring system",
-      },
-    ],
+    table: "tv_mounting_wiring",
   },
   {
     id: "panels-electrical",
     title: "Electrical Panels & Upgrades",
-    slides: [
-      {
-        id: "pic1",
-        title: "Main Panel Upgrade",
-        image: "/pan1.jpg",
-        alt: "Main electrical panel upgrade",
-      },
-      {
-        id: "pic2",
-        title: "Main Panel Upgrade",
-        image: "/pan2.jpg",
-        alt: "Main electrical panel upgrade",
-      },
-     
-    ],
+    table: "electrical_panels_upgrades",
   },
   {
     id: "accent-specialty",
     title: "Accent & Specialty Lighting",
-    slides: [
-     {
-        //done
-        id: "pic1",
-
-        title: "Track Lighting System",
-
-        image: "/clight1.jpg",
-
-        alt: "Track lighting system installation",
-      },
-
-      {
-        id: "pic2",
-
-        title: "Track Lighting System",
-
-        image: "/clight10.jpg",
-
-        alt: "Track lighting system installation",
-      },
-
-      {
-        id: "pic3",
-
-        title: "Track Lighting System",
-
-        image: "/clight7.jpg",
-
-        alt: "Track lighting system installation",
-      },
-    ],
+    table: "accent_specialty_lighting",
   },
 ];
 
@@ -407,6 +217,22 @@ const Slideshow = React.memo<{ section: WorkSection }>(({ section }) => {
   const currentSlideData = section.slides[currentSlide];
   const nextSlideData = section.slides[nextSlideIndex];
 
+  // Don't render if no slides
+  if (!section.slides.length) {
+    return (
+      <article className="bg-white shadow-lg hover:shadow-xl transition-all duration-500 group rounded-2xl overflow-hidden">
+        <header className="bg-black px-6 py-4">
+          <h3 className="text-white font-bold text-xl text-center tracking-wide">
+            {section.title}
+          </h3>
+        </header>
+        <div className="aspect-square bg-gray-100 flex items-center justify-center">
+          <p className="text-gray-500 text-center">No images available</p>
+        </div>
+      </article>
+    );
+  }
+
   return (
     <article
       className="bg-white shadow-lg hover:shadow-xl transition-all duration-500 group rounded-2xl overflow-hidden"
@@ -444,26 +270,29 @@ const Slideshow = React.memo<{ section: WorkSection }>(({ section }) => {
               }`}
             >
               <Image
-                src={slide.image || "/placeholder.svg?height=400&width=400"}
-                alt={slide.alt}
+                src={slide.url || "/placeholder.svg?height=400&width=400"}
+                alt={slide.title}
                 fill
                 className="object-cover"
                 priority={index === 0}
                 loading={index === 0 ? "eager" : "lazy"}
                 onLoad={() => index === 0 && setIsLoading(false)}
+                onError={(e) => {
+                  console.error("Image load error:", slide.url);
+                  // Optionally set a fallback image
+                  (e.target as HTMLImageElement).src = "/placeholder.svg?height=400&width=400";
+                }}
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
           ))}
 
           {/* Preload next image */}
-          {section.slides.length > 1 && (
+          {section.slides.length > 1 && nextSlideData && (
             <div className="hidden">
               <Image
-                src={
-                  nextSlideData.image || "/placeholder.svg?height=400&width=400"
-                }
-                alt={nextSlideData.alt}
+                src={nextSlideData.url || "/placeholder.svg?height=400&width=400"}
+                alt={nextSlideData.title}
                 width={1}
                 height={1}
                 loading="lazy"
@@ -481,7 +310,7 @@ const Slideshow = React.memo<{ section: WorkSection }>(({ section }) => {
               <button
                 onClick={prevSlide}
                 className="absolute left-4 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg z-30 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-red-400"
-                aria-label={`Previous slide. Currently showing ${currentSlideData.title}`}
+                aria-label={`Previous slide. Currently showing ${currentSlideData?.title}`}
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -489,7 +318,7 @@ const Slideshow = React.memo<{ section: WorkSection }>(({ section }) => {
               <button
                 onClick={nextSlide}
                 className="absolute right-4 top-1/2 -translate-y-1/2 bg-red-600 hover:bg-red-700 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg z-30 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-red-400"
-                aria-label={`Next slide. Currently showing ${currentSlideData.title}`}
+                aria-label={`Next slide. Currently showing ${currentSlideData?.title}`}
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -552,6 +381,58 @@ Slideshow.displayName = "Slideshow";
 
 // Main component
 const OurWork: React.FC = () => {
+  const [workSections, setWorkSections] = useState<WorkSection[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch images from database
+  useEffect(() => {
+    const fetchAllImages = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const sectionsWithImages = await Promise.all(
+          workSectionsConfig.map(async (config) => {
+            try {
+              const response = await fetch(`/api/get-images?section=${config.table}`);
+              
+              if (!response.ok) {
+                console.error(`Failed to fetch images for ${config.table}:`, response.status);
+                return {
+                  ...config,
+                  slides: [],
+                };
+              }
+
+              const data = await response.json();
+              
+              return {
+                ...config,
+                slides: data.images || [],
+              };
+            } catch (error) {
+              console.error(`Error fetching images for ${config.table}:`, error);
+              return {
+                ...config,
+                slides: [],
+              };
+            }
+          })
+        );
+
+        setWorkSections(sectionsWithImages);
+      } catch (error) {
+        console.error('Error fetching images:', error);
+        setError('Failed to load images. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAllImages();
+  }, []);
+
   // Memoize the grid to prevent unnecessary re-renders
   const slideshowGrid = useMemo(
     () =>
@@ -563,8 +444,39 @@ const OurWork: React.FC = () => {
           <Slideshow section={section} />
         </div>
       )),
-    []
+    [workSections]
   );
+
+  if (isLoading) {
+    return (
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <p className="text-gray-600">Loading our work...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center">
+            <p className="text-red-600 mb-4">{error}</p>
+            <button 
+              onClick={() => window.location.reload()} 
+              className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="bg-white py-20" aria-labelledby="our-work-heading">
