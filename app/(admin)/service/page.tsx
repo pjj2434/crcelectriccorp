@@ -31,20 +31,32 @@ import { toast } from "sonner"
 import { UploadButton } from "@/utils/uploadthing"
 import { useSession } from "@/lib/auth-client"
 
-const SECTIONS = {
-  'custom_lighting_installation': 'Custom Lighting Installation',
-  'landscape_outdoor_lighting': 'Landscape & Outdoor Lighting',
-  'pool_sauna_electrical': 'Pool & Sauna Electrical',
-  'tv_mounting_wiring': 'TV Mounting & Wiring',
-  'electrical_panels_upgrades': 'Electrical Panels & Upgrades',
-  'accent_specialty_lighting': 'Accent & Specialty Lighting'
+const SERVICE_CATEGORIES = {
+  'landscape': 'LANDSCAPE & OUTDOOR LIGHTING',
+  'pool': 'POOL & SAUNA ELECTRICAL', 
+  'residential': 'RESIDENTIAL ELECTRICAL SERVICES',
+  'commercial': 'COMMERCIAL ELECTRICAL SOLUTIONS',
+  'ev': 'EV Charger Installation',
+  'generator': 'Residential & Commercial Generator Installation'
+}
+
+interface ServiceImage {
+  id: string
+  title: string
+  url: string
+  fileKey?: string
+  serviceCategory: string
+  isActive: number
+  createdAt: number
+  updatedAt: number
+  uploadedBy?: string
 }
 
 export default function AdminPage() {
   const { data: session } = useSession()
   
   // State
-  const [imagesBySection, setImagesBySection] = useState<Record<string, any[]>>({})
+  const [imagesByCategory, setImagesByCategory] = useState<Record<string, ServiceImage[]>>({})
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isDeleting, setIsDeleting] = useState<string | null>(null)
@@ -53,21 +65,21 @@ export default function AdminPage() {
   const [openDialog, setOpenDialog] = useState(false)
   const [formData, setFormData] = useState({
     title: '',
-    section: '',
+    serviceCategory: '',
   })
   const [uploadedFile, setUploadedFile] = useState<any>(null)
 
   // Load images on mount
   useEffect(() => {
-    loadAllImages()
+    loadServiceImages()
   }, [])
 
-  // Load all images from cache
-  const loadAllImages = async () => {
+  // Load all service images
+  const loadServiceImages = async () => {
     setIsLoading(true)
     try {
-      console.log('📖 Loading images...')
-      const response = await fetch('/api/get-all-images')
+      console.log('📖 Loading service images...')
+      const response = await fetch('/api/service-images')
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -76,18 +88,18 @@ export default function AdminPage() {
       const data = await response.json()
       
       if (data.success) {
-        setImagesBySection(data.imagesBySection || {})
-        console.log(`✅ Loaded ${data.totalImages} images ${data.cached ? '(from cache)' : '(fresh)'}`)
+        setImagesByCategory(data.imagesByCategory || {})
+        console.log(`✅ Loaded ${data.totalImages} service images ${data.cached ? '(from cache)' : '(fresh)'}`)
         
         if (data.cached) {
-          toast.success(`Loaded ${data.totalImages} images from cache`)
+          toast.success(`Loaded ${data.totalImages} service images from cache`)
         }
       } else {
-        throw new Error(data.error || 'Failed to load images')
+        throw new Error(data.error || 'Failed to load service images')
       }
     } catch (error) {
-      console.error('Error loading images:', error)
-      toast.error('Failed to load images')
+      console.error('Error loading service images:', error)
+      toast.error('Failed to load service images')
     } finally {
       setIsLoading(false)
     }
@@ -110,8 +122,8 @@ export default function AdminPage() {
       return
     }
     
-    if (!formData.section) {
-      toast.error("Please select a section")
+    if (!formData.serviceCategory) {
+      toast.error("Please select a service category")
       return
     }
     
@@ -126,58 +138,51 @@ export default function AdminPage() {
         title: formData.title.trim(),
         url: uploadedFile.url,
         fileKey: uploadedFile.key,
-        section: formData.section,
+        serviceCategory: formData.serviceCategory,
       }
 
-      const response = await fetch('/api/save-image', {
+      const response = await fetch('/api/service-images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       })
 
       if (response.ok) {
-        toast.success("Image saved successfully")
+        toast.success("Service image saved successfully")
         resetForm()
-        await loadAllImages()
+        await loadServiceImages()
       } else {
         const errorData = await response.json()
-        toast.error(errorData.error || "Failed to save image")
+        toast.error(errorData.error || "Failed to save service image")
       }
     } catch (error) {
       console.error("Submit error:", error)
-      toast.error("Error saving image")
+      toast.error("Error saving service image")
     } finally {
       setIsSubmitting(false)
     }
   }
 
   // Handle delete
-  const handleDelete = async (imageId: string, sectionTable: string) => {
+  const handleDelete = async (imageId: string) => {
     if (!confirm("Are you sure you want to delete this image?")) return
 
     setIsDeleting(imageId)
     try {
-      const deletePayload = { 
-        imageId: imageId.toString(), 
-        section: sectionTable 
-      }
-
-      const response = await fetch('/api/delete-image', {
+      const response = await fetch(`/api/service-images/${imageId}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(deletePayload),
       })
 
       if (response.ok) {
-        toast.success("Image deleted successfully")
-        await loadAllImages()
+        toast.success("Service image deleted successfully")
+        await loadServiceImages()
       } else {
         const errorData = await response.json()
-        toast.error(errorData.error || "Failed to delete image")
+        toast.error(errorData.error || "Failed to delete service image")
       }
     } catch (error) {
       console.error("Delete error:", error)
-      toast.error("Error deleting image")
+      toast.error("Error deleting service image")
     } finally {
       setIsDeleting(null)
     }
@@ -187,21 +192,21 @@ export default function AdminPage() {
   const resetForm = () => {
     setFormData({
       title: '',
-      section: '',
+      serviceCategory: '',
     })
     setUploadedFile(null)
     setOpenDialog(false)
   }
 
   // Calculate total images
-  const totalImages = Object.values(imagesBySection).reduce((sum, images) => sum + images.length, 0)
+  const totalImages = Object.values(imagesByCategory).reduce((sum, images) => sum + images.length, 0)
 
   return (
     <div className="container mx-auto p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold">CRC Our Work</h1>
+          <h1 className="text-3xl font-bold">CRC Service Images</h1>
           <p className="text-muted-foreground">
             Welcome, {session?.user?.name || session?.user?.email} • {totalImages} total images
           </p>
@@ -209,7 +214,7 @@ export default function AdminPage() {
         <div className="flex gap-2">
           <Button 
             variant="outline" 
-            onClick={loadAllImages}
+            onClick={loadServiceImages}
             disabled={isLoading}
           >
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
@@ -227,30 +232,30 @@ export default function AdminPage() {
           <DialogTrigger asChild>
             <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
               <Plus className="w-5 h-5 mr-2" />
-              Add Image
+              Add Service Image
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Add Image</DialogTitle>
+              <DialogTitle>Add Service Image</DialogTitle>
               <DialogDescription>
-                Upload an image for a gallery section
+                Upload an image for a service category
               </DialogDescription>
             </DialogHeader>
             
             <div className="grid gap-6 py-4">
-              {/* Section */}
+              {/* Service Category */}
               <div className="grid gap-2">
-                <Label>Gallery Section *</Label>
+                <Label>Service Category *</Label>
                 <Select
-                  value={formData.section}
-                  onValueChange={(value) => setFormData(prev => ({ ...prev, section: value }))}
+                  value={formData.serviceCategory}
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, serviceCategory: value }))}
                 >
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a gallery section" />
+                    <SelectValue placeholder="Select a service category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.entries(SECTIONS).map(([key, label]) => (
+                    {Object.entries(SERVICE_CATEGORIES).map(([key, label]) => (
                       <SelectItem key={key} value={key}>
                         {label}
                       </SelectItem>
@@ -319,29 +324,29 @@ export default function AdminPage() {
         </Dialog>
       </div>
 
-      {/* Sections */}
+      {/* Service Categories */}
       <div className="grid gap-8">
-        {Object.entries(SECTIONS).map(([sectionKey, sectionLabel]) => {
-          const sectionImages = imagesBySection[sectionKey] || []
+        {Object.entries(SERVICE_CATEGORIES).map(([categoryKey, categoryLabel]) => {
+          const categoryImages = imagesByCategory[categoryKey] || []
           
           return (
-            <Card key={sectionKey}>
+            <Card key={categoryKey}>
               <CardHeader>
-                <CardTitle>{sectionLabel}</CardTitle>
+                <CardTitle>{categoryLabel}</CardTitle>
                 <CardDescription>
-                  {sectionImages.length} image{sectionImages.length !== 1 ? 's' : ''}
+                  {categoryImages.length} image{categoryImages.length !== 1 ? 's' : ''}
                 </CardDescription>
               </CardHeader>
               
               <CardContent>
-                {sectionImages.length === 0 ? (
+                {categoryImages.length === 0 ? (
                   <div className="text-center py-8">
                     <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No images for this section yet</p>
+                    <p className="text-gray-500">No images for this service yet</p>
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {sectionImages.map((image) => (
+                    {categoryImages.map((image) => (
                       <div key={image.id} className="relative group">
                         <div className="aspect-video bg-muted rounded-lg overflow-hidden border">
                           <img
@@ -354,7 +359,7 @@ export default function AdminPage() {
                           <Button
                             variant="destructive"
                             size="sm"
-                            onClick={() => handleDelete(image.id, sectionKey)}
+                            onClick={() => handleDelete(image.id)}
                             disabled={isDeleting === image.id}
                           >
                             {isDeleting === image.id ? (

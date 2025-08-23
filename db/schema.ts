@@ -117,3 +117,14 @@ export const accentSpecialtyLighting = sqliteTable("accent_specialty_lighting", 
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull(),
   uploadedBy: text('uploaded_by') 
   });
+export const serviceImages = sqliteTable('service_images', {
+  id: text('id').primaryKey(),
+  serviceCategory: text('service_category').notNull(), // Renamed from 'service'
+  title: text('title').notNull(),
+  url: text('url').notNull(),
+  fileKey: text('file_key'),
+  isActive: integer('is_active').default(1).notNull(),
+  createdAt: integer('created_at').notNull(),
+  updatedAt: integer('updated_at').notNull(),
+  uploadedBy: text('uploaded_by'),
+})
