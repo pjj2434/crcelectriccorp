@@ -9,7 +9,7 @@ const formSchema = z.object({
   email: z.string().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
   phone: z.string().min(10, "Phone must be at least 10 digits").max(20, "Phone must be less than 20 characters").regex(/^[\d\s\(\)\-\+\.]+$/, "Phone can only contain numbers, spaces, parentheses, hyphens, and plus signs"),
   address: z.string().min(5, "Address must be at least 5 characters").max(500, "Address must be less than 500 characters"),
-  serviceType: z.enum(['landscape-outdoor-lighting', 'pool-sauna-electrical', 'residential-electrical-services', 'commercial-electrical-solutions']),
+  serviceType: z.enum(['landscape-outdoor-lighting', 'pool-sauna-electrical', 'residential-electrical-services', 'commercial-electrical-solutions', 'ev-Charger-Installation', 'residential-commercial-generator-installation']),
   propertyType: z.enum(['residential', 'commercial']),
   wiringType: z.enum(['existing', 'new']).optional(),
   description: z.string().max(2000, "Description must be less than 2000 characters").optional(),
@@ -201,7 +201,9 @@ export async function POST(request: NextRequest) {
       'landscape-outdoor-lighting': 'Landscape & Outdoor Lighting',
       'pool-sauna-electrical': 'Pool & Sauna Electrical',
       'residential-electrical-services': 'Residential Electrical Services',
-      'commercial-electrical-solutions': 'Commercial Electrical Solutions'
+      'commercial-electrical-solutions': 'Commercial Electrical Solutions',
+      'ev-Charger-Installation': 'EV Charger Installation',
+      'residential-commercial-generator-installation': 'Residential & Commercial Generator Installation'
     }
     const readableService = serviceNames[serviceType]
 
