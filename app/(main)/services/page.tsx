@@ -1,4 +1,4 @@
-import { ServicesSection } from "@/components/serivice-section"
+import ServicesSection from "@/components/serivice-section"
 
 export default function Services() {
   return (
