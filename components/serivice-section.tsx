@@ -199,7 +199,7 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
   );
 }
 
-export function ServicesSection() {
+export default function ServicesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [imagesByCategory, setImagesByCategory] = useState<Record<string, ServiceImage[]>>({})
   const [isLoading, setIsLoading] = useState(true)
@@ -256,7 +256,8 @@ export function ServicesSection() {
 
     const handleHashScroll = () => {
       const hash = window.location.hash.slice(1);
-      if (hash) {
+      if (hash && hash.trim() !== '') {
+        // Only scroll if there's a valid hash
         setTimeout(() => {
           const element = document.getElementById(hash);
           if (element) {
@@ -272,9 +273,14 @@ export function ServicesSection() {
           }
         }, 500);
       }
+      // If no hash, don't scroll anywhere - let the page stay at its natural position
     };
 
-    handleHashScroll();
+    // Only run hash scroll if there's actually a hash in the URL
+    if (window.location.hash) {
+      handleHashScroll();
+    }
+    
     window.addEventListener('hashchange', handleHashScroll);
     
     return () => {
@@ -282,16 +288,8 @@ export function ServicesSection() {
     };
   }, [isMounted]);
 
-  if (isLoading) {
-    return (
-      <div className="bg-black py-20 md:py-28 lg:py-32">
-        <div className="container mx-auto px-6 text-center">
-          <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-red-600">Loading services...</p>
-        </div>
-      </div>
-    )
-  }
+  // Loading state is now handled by Suspense in the parent component
+  // This prevents scroll jumping during loading transitions
 
   return (
     <div className="bg-black relative overflow-hidden" ref={sectionRef}>
