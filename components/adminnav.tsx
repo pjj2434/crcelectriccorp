@@ -9,9 +9,9 @@ import { cn } from "@/lib/utils"
 const handleSignOut = async () => {
   try {
     await fetch('/api/auth/sign-out', { method: 'POST' })
-    window.location.href = '/sign-in'
+    window.location.href = '/login'
   } catch (error) {
-    window.location.href = '/sign-in'
+    window.location.href = '/login'
   }
 }
 

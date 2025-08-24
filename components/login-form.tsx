@@ -50,7 +50,7 @@ export default function SignIn() {
         },
         onSuccess: async () => {
           toast.success("Successfully signed in!"); // Success toast
-          router.push("/sections");
+          router.push("/service");
           router.refresh();
         },
         onError: () => {
