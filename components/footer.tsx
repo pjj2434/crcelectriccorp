@@ -13,6 +13,8 @@ const services = [
   { title: "POOL & SAUNA ELECTRICAL", slug: "pool-sauna-electrical" },
   { title: "RESIDENTIAL ELECTRICAL SERVICES", slug: "residential-electrical-services" },
   { title: "COMMERCIAL ELECTRICAL SOLUTIONS", slug: "commercial-electrical-solutions" },
+  { title: "EV Charger Installation", slug: "ev-charger-installation" },
+  { title: "Generator Installation", slug: "residential-commercial-generator-installation" },
 ];
 
 function normalizeSlug(str: string): string {
