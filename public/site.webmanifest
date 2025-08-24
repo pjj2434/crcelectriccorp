@@ -1,0 +1,22 @@
+{
+  "name": "CRC Electric - Expert Electrical Services",
+  "short_name": "CRC Electric",
+  "description": "Licensed electrical services in Long Island, NY",
+  "icons": [
+    {
+      "src": "/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#dc2626",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
+}
