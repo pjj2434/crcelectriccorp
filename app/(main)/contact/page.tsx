@@ -16,6 +16,8 @@ const services = [
   { title: "POOL & SAUNA ELECTRICAL", slug: "pool-sauna-electrical" },
   { title: "RESIDENTIAL ELECTRICAL SERVICES", slug: "residential-electrical-services" },
   { title: "COMMERCIAL ELECTRICAL SOLUTIONS", slug: "commercial-electrical-solutions" },
+  { title: "EV Charger Installation", slug: "ev-Charger-Installation" },
+  { title: "Residential & Commercial Generator Installation", slug: "residential-commercial-generator-installation" },
 ];
 
 // Normalize a string to a slug (lowercase, dashes, no special chars)
@@ -179,17 +181,17 @@ function ContactFormContent() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-black py-12 px-4">
+    <div className="min-h-screen w-full bg-black py-6 lg:py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           
-          {/* Left Side - Business Information */}
-          <div className="space-y-8">
+          {/* Left Side - Business Information (Hidden on Mobile) */}
+          <div className="space-y-8 hidden lg:block">
             <div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
                 CRC
                 <br />
-                <span className="text-red-500">ELECTRICAL</span>
+                <span className="text-red-500">ELECTRIC</span>
               </h1>
               <p className="text-xl text-gray-300 mb-8">
                 Professional electrical services across Long Island
@@ -243,12 +245,31 @@ function ContactFormContent() {
           </div>
 
           {/* Right Side - Contact Form */}
-          <div className="bg-white rounded-2xl shadow-2xl p-8 border-2 border-red-500">
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 lg:p-8 border-2 border-red-500">
+            {/* Mobile Header with Essential Contact Info */}
+            <div className="lg:hidden mb-6">
+              <h1 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                CRC <span className="text-red-500">ELECTRIC</span>
+              </h1>
+              
+              {/* Essential Contact Info for Mobile */}
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <a href="tel:6317641577" className="flex items-center justify-center space-x-2 bg-red-500 text-white px-4 py-3 rounded-lg hover:bg-red-600 transition-colors">
+                  <Phone className="w-4 h-4" />
+                  <span className="font-semibold">(631) 764-1577</span>
+                </a>
+                <a href="mailto:crcelectriccorp@gmail.com" className="flex items-center justify-center space-x-2 bg-gray-900 text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors">
+                  <Mail className="w-4 h-4" />
+                  <span className="font-semibold">Email</span>
+                </a>
+              </div>
+            </div>
+
+            <h2 className="text-2xl lg:text-3xl font-bold text-center text-gray-900 mb-6 lg:mb-8">
               Get Your Free <span className="text-red-500">Estimate</span>
             </h2>
             
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-4 lg:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label className="block mb-2 font-medium text-gray-700">Name *</label>
                 <Input
@@ -370,7 +391,7 @@ function ContactFormContent() {
                   value={form.description}
                   onChange={handleChange}
                   placeholder="Tell us more about your electrical project..."
-                  className="border-gray-300 focus:border-red-500 focus:ring-red-500 min-h-[100px]"
+                  className="border-gray-300 focus:border-red-500 focus:ring-red-500 min-h-[80px] lg:min-h-[100px]"
                   disabled={isSubmitting}
                 />
               </div>
